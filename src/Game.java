@@ -33,16 +33,15 @@ public class Game {
 	}
 
 	public char winner() {
-		if (board.charAt(0) != '-' && board.charAt(0) == board.charAt(1)
-				&& board.charAt(1) == board.charAt(2))
-			return board.charAt(0);
-		if (board.charAt(3) != '-' && board.charAt(3) == board.charAt(4)
-				&& board.charAt(4) == board.charAt(5))
-			return board.charAt(3);
-		if (board.charAt(6) != '-' && board.charAt(6) == board.charAt(7)
-				&& board.charAt(7) == board.charAt(8))
-			return board.charAt(6);
+		for (int position = 0; position < 9; position += 3)
+			if (winnerAtPosition(position))
+				return board.charAt(position);
 
 		return '-';
+	}
+
+	private boolean winnerAtPosition(int position) {
+		return board.charAt(position) != '-' && board.charAt(position) == board.charAt(position + 1)
+				&& board.charAt(position + 1) == board.charAt(position + 2);
 	}
 }
