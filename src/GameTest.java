@@ -1,39 +1,32 @@
 import junit.framework.*;
 
 public class GameTest extends TestCase {
-	public GameTest(String s) {super(s);}
 
-	public void testOnlyAvailableMove() {
+	public GameTest(String s) {
+		super(s);
+	}
+
+	public void testDefaultMove() {
 		Game game = new Game("XOXOX-OXO");
 		assertEquals(5, game.move('X'));
 
 		game = new Game("XOXOXOOX-");
 		assertEquals(8, game.move('O'));
-	}
-	
-	public void testStartingDefaultMove() {
-		Game game = new Game("---------");
+
+		game = new Game("---------");
 		assertEquals(0, game.move('X'));
-	}
-	
-	public void testNoAvailableMove() {
-		Game game = new Game("XXXXXXXXX");
+
+		game = new Game("XXXXXXXXX");
 		assertEquals(-1, game.move('X'));
 	}
 
-	public void testFindWinningRowMove() {
-		Game game = new Game("OO-XX-OOX");
+	public void testFindWinningMove() {
+		Game game = new Game("XO-XX-OOX");
 		assertEquals(5, game.move('X'));
 	}
 
-	public void testWinByRowConditions() {
+	public void testWinConditions() {
 		Game game = new Game("---XXX---");
 		assertEquals('X', game.winner());
-		
-		game = new Game("------OOO");
-		assertEquals('O', game.winner());
-		
-		game = new Game("YYY------");
-		assertEquals('Y', game.winner());
 	}
 }
