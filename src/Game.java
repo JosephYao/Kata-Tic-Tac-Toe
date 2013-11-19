@@ -1,14 +1,8 @@
 public class Game {
-	public StringBuffer board;
+	private final StringBuffer board;
 
 	public Game(String s) {
 		board = new StringBuffer(s);
-	}
-
-	public Game(StringBuffer s, int position, char player) {
-		board = new StringBuffer();
-		board.append(s);
-		board.setCharAt(position, player);
 	}
 
 	public int move(char player) {
@@ -28,8 +22,14 @@ public class Game {
 		return -1;
 	}
 
-	public Game play(int i, char player) {
-		return new Game(this.board, i, player);
+	private Game play(int i, char player) {
+		return new Game(createNewBoard(i, player));
+	}
+
+	private String createNewBoard(int i, char player) {
+		StringBuffer newBoard = new StringBuffer(this.board);
+		newBoard.setCharAt(i, player);
+		return newBoard.toString();
 	}
 
 	public char winner() {
