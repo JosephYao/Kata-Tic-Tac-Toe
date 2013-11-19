@@ -1,8 +1,8 @@
 public class Game {
-	private final StringBuffer board;
+	private final String board;
 
-	public Game(String s) {
-		board = new StringBuffer(s);
+	public Game(String board) {
+		this.board = board;
 	}
 
 	public int move(char player) {
