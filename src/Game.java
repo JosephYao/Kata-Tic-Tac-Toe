@@ -1,4 +1,8 @@
+
 public class Game {
+	private static final int ROW_LENGTH = 3;
+	private static final char AVAILABLE_POSITION = '-';
+	private static final char NO_WINNER = '-';
 	private final String board;
 
 	public Game(String board) {
@@ -6,42 +10,37 @@ public class Game {
 	}
 
 	public int move(char player) {
-		for (int i = 0; i < 9; i++) {
-			if (board.charAt(i) == '-') {
-				Game game = play(i, player);
-				if (game.winner() == player)
-					return i;
-			}
-		}
+		for (int index = possibleMove(0); isAPossibleMove(index); index = possibleMove(index + 1))
+			if (doesPlayerWin(player, index))
+				return index;
 
-		for (int i = 0; i < 9; i++) {
-			if (board.charAt(i) == '-')
-				return i;
-		}
-
-		return -1;
+		return possibleMove(0);
 	}
 
-	private Game play(int i, char player) {
-		return new Game(createNewBoard(i, player));
-	}
-
-	private String createNewBoard(int i, char player) {
+	private boolean doesPlayerWin(char player, int possibleMove) {
 		StringBuffer newBoard = new StringBuffer(this.board);
-		newBoard.setCharAt(i, player);
-		return newBoard.toString();
+		newBoard.setCharAt(possibleMove, player);
+		return new Game(newBoard.toString()).winner() == player;
+	}
+
+	private boolean isAPossibleMove(int index) {
+		return index != -1;
+	}
+
+	private int possibleMove(int fromIndex) {
+		return board.indexOf(AVAILABLE_POSITION, fromIndex);
 	}
 
 	public char winner() {
-		for (int position = 0; position < 9; position += 3)
+		for (int position = 0; position < board.length(); position += ROW_LENGTH)
 			if (winnerAtPosition(position))
 				return board.charAt(position);
 
-		return '-';
+		return NO_WINNER;
 	}
 
 	private boolean winnerAtPosition(int position) {
-		return board.charAt(position) != '-' && board.charAt(position) == board.charAt(position + 1)
+		return board.charAt(position) != AVAILABLE_POSITION && board.charAt(position) == board.charAt(position + 1)
 				&& board.charAt(position + 1) == board.charAt(position + 2);
 	}
 }
